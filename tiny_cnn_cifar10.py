@@ -7,6 +7,15 @@ from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 
 class TinyCNN(nn.Module):
+    """
+    A small Convolutional Neural Network for CIFAR-10 classification.
+
+    Architecture:
+        - Conv2d -> ReLU -> MaxPool
+        - Conv2d -> ReLU -> MaxPool
+        - Flatten
+        - Linear -> ReLU -> Linear (output 10 classes)
+    """
     def __init__(self):
         super().__init__()
         self.conv1 = nn.Conv2d(in_channels = 3, out_channels = 16, kernel_size = 3, padding = 1)
@@ -20,6 +29,15 @@ class TinyCNN(nn.Module):
         )
         
     def forward(self, x):
+        """
+        Forward pass through the network.
+
+        Args:
+            x (torch.Tensor): Input tensor of shape (batch_size, 3, 32, 32).
+
+        Returns:
+            torch.Tensor: Output logits for 10 classes.
+        """
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
         x = self.flatten(x)
